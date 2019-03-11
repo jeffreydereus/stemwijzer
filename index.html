@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stemwijzer</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
+</head>
+<body>
+    <script>
+        var questions = [];
+        for (i in subjects){
+            questions["q" + i] = [subjects[i].title, subjects[i].statement, subjects[i].parties];
+        }
+
+        function screenObj(question, statement){
+            this.question = question;
+            this.statement = statement;
+        }
+    </script>
+</body>
+</html>
