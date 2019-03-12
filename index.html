@@ -7,16 +7,74 @@
     <script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
 </head>
 <body>
+<h1 id="title"></h1>
+<p id="statement"></p>
+<button id="True" onclick="AnswersQuestions(Enums.True)" style="display: none;">Eens</button>
+<button id="False" onclick="AnswersQuestions(Enums.False)" style="display: none;">Oneens</button>
+<button id="Indif" onclick="AnswersQuestions(Enums.Indifferent)" style="display: none;">Geen mening</button>
+<button id="Next" onclick="StartQuestions()">Start</button>
+<button id="Terug" onclick="PreviousQuestion()" style="display: none;">Terug</button>
     <script>
         var questions = [];
-        for (i in subjects){
-            questions["q" + i] = [subjects[i].title, subjects[i].statement, subjects[i].parties];
-        }
+        var QuestionNames = [];
+        var QuestionNumber = -1;
+        var title = document.getElementById("title");
+        var next = document.getElementById("Next");
+        var Back = document.getElementById("Terug");
+        var AnswerTrue = document.getElementById("True");
+        var AnswerFalse = document.getElementById("False");
+        var AnswerIndif = document.getElementById("Indif");
+        var Answered = [];
 
-        function screenObj(question, statement){
+        var Enums = {
+            True: 0,
+            False: 1,
+            Indifferent: 2,
+            Skip: null
+        };
+
+
+        function ScreenObj(question, statement){
             this.question = question;
             this.statement = statement;
         }
+
+        for (i in subjects){
+            questions["q" + i] = new ScreenObj(subjects[i].title, subjects[i].statement);
+            QuestionNames.push("q" + i);
+        }
+        console.log(questions);
+        function StartQuestions(){
+            QuestionNumber += 1;
+            title.innerText = questions[QuestionNames[QuestionNumber]].question;
+            statement.innerText = questions[QuestionNames[QuestionNumber]].statement;
+            next.innerText = "Skip";
+            next.setAttribute("onClick", "AnswersQuestions(Enums.Indifferent)");
+            Back.style.display = "";
+            AnswerTrue.style.display = "";
+            AnswerFalse.style.display = "";
+            AnswerIndif.style.display = "";
+        }
+
+        function AnswersQuestions(Answer){
+            Answered.push(Answer);
+            NextQuestion();
+        }
+
+        function NextQuestion(){
+            QuestionNumber += 1;
+            title.innerText = questions[QuestionNames[QuestionNumber]].question;
+            statement.innerText = questions[QuestionNames[QuestionNumber]].statement;
+        }
+        function PreviousQuestion(){
+            QuestionNumber -= 1;
+            title.innerText = questions[QuestionNames[QuestionNumber]].question;
+            statement.innerText = questions[QuestionNames[QuestionNumber]].statement;
+            Answered.pop()
+        }
     </script>
+
+
+
 </body>
 </html>
